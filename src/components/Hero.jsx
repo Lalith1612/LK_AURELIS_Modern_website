@@ -4,214 +4,286 @@ import { gsap } from 'gsap'
 export default function Hero({
   vehicleImg = '/assets/aurelis-hero.jpg',
   morphImg = '/assets/aurelis-finish-black.jpg',
+  revealImg = '/assets/aurelis-hero.jpg',
   onNavigate
 }) {
   const heroRef = useRef(null)
   const [isTransitioning, setIsTransitioning] = useState(false)
-  const [isCinematicDone, setIsCinematicDone] = useState(false)
-  const cinematicTimelineRef = useRef(null)
+  const [isCinematicActive, setIsCinematicActive] = useState(() => {
+    if (typeof window === 'undefined') return false
+    if (window.location.pathname === '/configure') return false
+    const prefersReducedMotion =
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    return !prefersReducedMotion
+  })
+  const timelineRef = useRef(null)
 
-  // Skip cinematic opening directly to settled state
+  // Skip cinematic intro directly into settled state
   const handleSkipIntro = () => {
-    if (isCinematicDone) return
-    setIsCinematicDone(true)
-    document.body.style.overflow = ''
+    if (!isCinematicActive) return
 
-    if (cinematicTimelineRef.current) {
-      cinematicTimelineRef.current.kill()
+    if (timelineRef.current) {
+      timelineRef.current.kill()
     }
 
     const heroEl = heroRef.current
-    if (!heroEl) return
-
-    const car = heroEl.querySelector('.hero-car-silver')
-    const title = heroEl.querySelector('.hero-title')
-    const tag = heroEl.querySelector('.hero-tag')
-    const tagline = heroEl.querySelector('.hero-tagline')
-    const secondaryEls = heroEl.querySelectorAll('.hero-description, .hero-meta, .hero-actions, .hero-scroll-cue-inline')
-    const backdrop = heroEl.querySelector('.hero-cinematic-backdrop')
-    const skipBtn = heroEl.querySelector('.cinematic-skip-btn')
-    const navbar = document.querySelector('.navbar')
-
-    // Quick 0.5s settle
-    gsap.to([car, title, tag, tagline], {
-      x: 0,
-      y: 0,
-      scale: 1,
-      xPercent: 0,
-      yPercent: 0,
-      opacity: 1,
-      filter: 'drop-shadow(0 30px 60px rgba(0, 0, 0, 0.9)) brightness(1)',
-      duration: 0.5,
-      ease: 'power2.out'
-    })
-    gsap.to(secondaryEls, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' })
-    if (backdrop) gsap.to(backdrop, { opacity: 0, duration: 0.5 })
-    if (skipBtn) gsap.to(skipBtn, { opacity: 0, duration: 0.3 })
-    if (navbar) gsap.to(navbar, { opacity: 1, y: 0, duration: 0.5 })
-  }
-
-  // Cinematic Opening on Mount
-  useEffect(() => {
-    document.body.style.overflow = 'hidden'
-    window.scrollTo(0, 0)
-
-    const prefersReducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-    if (prefersReducedMotion) {
+    if (!heroEl) {
+      setIsCinematicActive(false)
       document.body.style.overflow = ''
-      setIsCinematicDone(true)
+      document.body.classList.remove('cinematic-active')
       return
     }
 
-    const heroEl = heroRef.current
-    if (!heroEl) return
-
-    const car = heroEl.querySelector('.hero-car-silver')
-    const softbox = heroEl.querySelector('.hero-cinematic-softbox')
-    const title = heroEl.querySelector('.hero-title')
+    const copyBox = heroEl.querySelector('.hero-copy-box')
+    const mediaContainer = heroEl.querySelector('.hero-media-container')
     const tag = heroEl.querySelector('.hero-tag')
+    const title = heroEl.querySelector('.hero-title')
     const tagline = heroEl.querySelector('.hero-tagline')
     const secondaryEls = heroEl.querySelectorAll('.hero-description, .hero-meta, .hero-actions, .hero-scroll-cue-inline')
     const backdrop = heroEl.querySelector('.hero-cinematic-backdrop')
+    const shadowVeil = heroEl.querySelector('.hero-cinematic-shadow-veil')
+    const softbox = heroEl.querySelector('.hero-cinematic-softbox')
     const skipBtn = heroEl.querySelector('.cinematic-skip-btn')
-    const navbar = document.querySelector('.navbar')
+    const progressFill = heroEl.querySelector('.cinematic-progress-fill')
+    const silverCar = heroEl.querySelector('.hero-car-silver')
 
-    // Initial cinematic states
-    if (navbar) gsap.set(navbar, { opacity: 0, y: -20 })
+    gsap.to([copyBox, mediaContainer, tag, title, tagline], {
+      x: 0,
+      y: 0,
+      xPercent: 0,
+      yPercent: 0,
+      scale: 1,
+      opacity: 1,
+      duration: 0.4,
+      ease: 'power2.out'
+    })
+
+    if (silverCar) gsap.to(silverCar, { opacity: 1, filter: 'none', duration: 0.4, ease: 'power2.out' })
+    if (secondaryEls) gsap.to(secondaryEls, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' })
+    if (backdrop) gsap.to(backdrop, { opacity: 0, duration: 0.4 })
+    if (shadowVeil) gsap.to(shadowVeil, { opacity: 0, duration: 0.3 })
+    if (softbox) gsap.to(softbox, { opacity: 0, duration: 0.3 })
+    if (skipBtn) gsap.to(skipBtn, { opacity: 0, duration: 0.3 })
+    if (progressFill) gsap.to(progressFill, { opacity: 0, duration: 0.3 })
+    gsap.to('.navbar', { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' })
+
+    setTimeout(() => {
+      setIsCinematicActive(false)
+      document.body.style.overflow = ''
+      document.body.classList.remove('cinematic-active')
+      gsap.set([copyBox, mediaContainer, tag, title, tagline, silverCar], {
+        clearProps: 'transform,filter,textAlign'
+      })
+    }, 450)
+  }
+
+  // Unified First Light Cinematic Morph on Mount
+  useEffect(() => {
+    if (!isCinematicActive) {
+      document.body.classList.remove('cinematic-active')
+      return
+    }
+
+    document.body.classList.add('cinematic-active')
+    document.body.style.overflow = 'hidden'
+    window.scrollTo(0, 0)
+
+    const heroEl = heroRef.current
+    if (!heroEl) return
+
+    const isDesktop = window.innerWidth >= 992
+    const copyBox = heroEl.querySelector('.hero-copy-box')
+    const mediaContainer = heroEl.querySelector('.hero-media-container')
+    const tag = heroEl.querySelector('.hero-tag')
+    const title = heroEl.querySelector('.hero-title')
+    const tagline = heroEl.querySelector('.hero-tagline')
+    const secondaryEls = heroEl.querySelectorAll('.hero-description, .hero-meta, .hero-actions, .hero-scroll-cue-inline')
+    const backdrop = heroEl.querySelector('.hero-cinematic-backdrop')
+    const shadowVeil = heroEl.querySelector('.hero-cinematic-shadow-veil')
+    const softbox = heroEl.querySelector('.hero-cinematic-softbox')
+    const skipBtn = heroEl.querySelector('.cinematic-skip-btn')
+    const progressFill = heroEl.querySelector('.cinematic-progress-fill')
+    const silverCar = heroEl.querySelector('.hero-car-silver')
+
+    // Initial cinematic posture using canonical home page vehicle
     if (backdrop) gsap.set(backdrop, { opacity: 1 })
-    if (skipBtn) gsap.set(skipBtn, { opacity: 0 })
+    if (shadowVeil) gsap.set(shadowVeil, { opacity: 0.95 })
     if (softbox) gsap.set(softbox, { xPercent: -130, opacity: 0 })
-
-    // Car starts enlarged and shifted toward center
-    if (car) {
-      gsap.set(car, {
-        scale: 1.2,
-        xPercent: -10,
-        yPercent: 3,
-        opacity: 0.35,
-        filter: 'drop-shadow(0 30px 60px rgba(0, 0, 0, 0.95)) brightness(0.6)'
+    if (skipBtn) gsap.set(skipBtn, { opacity: 0 })
+    if (progressFill) gsap.set(progressFill, { width: '0%' })
+    if (silverCar) {
+      gsap.set(silverCar, {
+        opacity: 0.45,
+        filter: 'drop-shadow(0 30px 60px rgba(0, 0, 0, 0.95)) brightness(0.65)'
       })
     }
 
-    // Main text starts in cinematic posture
-    if (tag) gsap.set(tag, { opacity: 0, y: 15, x: -12 })
-    if (title) gsap.set(title, { opacity: 0, y: 20, x: -15, scale: 1.12, transformOrigin: 'top left' })
-    if (tagline) gsap.set(tagline, { opacity: 0, y: 20, x: -12 })
-    if (secondaryEls) gsap.set(secondaryEls, { opacity: 0, y: 24 })
+    // Car container starts centered and expansive
+    if (mediaContainer) {
+      gsap.set(mediaContainer, {
+        xPercent: isDesktop ? -28 : 0,
+        yPercent: isDesktop ? -5 : -8,
+        scale: isDesktop ? 1.25 : 1.15,
+        transformOrigin: 'center center'
+      })
+    }
+
+    // Typography starts centered below vehicle
+    if (copyBox) {
+      gsap.set(copyBox, {
+        xPercent: isDesktop ? 44 : 0,
+        yPercent: isDesktop ? 55 : 35,
+        textAlign: 'center'
+      })
+    }
+    if (tag) gsap.set(tag, { opacity: 0, y: 20 })
+    if (title) gsap.set(title, { opacity: 0, y: 24 })
+    if (tagline) gsap.set(tagline, { opacity: 0, y: 20 })
 
     const tl = gsap.timeline({
       onComplete: () => {
-        setIsCinematicDone(true)
+        setIsCinematicActive(false)
         document.body.style.overflow = ''
+        document.body.classList.remove('cinematic-active')
+        gsap.set([copyBox, mediaContainer, tag, title, tagline, silverCar], {
+          clearProps: 'transform,filter,textAlign'
+        })
       }
     })
-    cinematicTimelineRef.current = tl
+    timelineRef.current = tl
 
-    // Fade in skip button
-    if (skipBtn) tl.to(skipBtn, { opacity: 0.8, duration: 0.8, ease: 'power1.out' }, 0.4)
+    // Smooth Progress Line across 5.2s
+    if (progressFill) {
+      tl.to(progressFill, { width: '100%', duration: 5.2, ease: 'none' }, 0)
+    }
 
-    // 0.0s – 1.0s: Dark silhouette with faint logo and outline
-    if (car) {
-      tl.to(car, { opacity: 0.65, filter: 'drop-shadow(0 30px 60px rgba(0,0,0,0.95)) brightness(0.8)', duration: 1.2, ease: 'power1.inOut' }, 0)
+    // Skip button gently fades in
+    if (skipBtn) {
+      tl.to(skipBtn, { opacity: 0.85, duration: 0.8, ease: 'power1.out' }, 0.4)
+    }
+
+    // 0.0s – 1.0s: Dark silhouette with faint outline of canonical Lunar Silver vehicle
+    if (silverCar) {
+      tl.to(
+        silverCar,
+        {
+          opacity: 0.65,
+          filter: 'drop-shadow(0 30px 60px rgba(0, 0, 0, 0.95)) brightness(0.8)',
+          duration: 1.2,
+          ease: 'power1.inOut'
+        },
+        0
+      )
     }
 
     // 1.0s – 2.5s: Studio softbox sweeps across front nose, illuminating LK Aurelis emblem & headlights
     if (softbox) {
-      tl.to(softbox, { opacity: 0.95, duration: 0.3, ease: 'power2.out' }, 1.0)
+      tl.to(softbox, { opacity: 0.95, duration: 0.4, ease: 'power2.out' }, 1.0)
       tl.to(softbox, { xPercent: 25, duration: 1.5, ease: 'power1.inOut' }, 1.0)
     }
-    if (car) {
-      tl.to(car, { opacity: 0.9, filter: 'drop-shadow(0 30px 60px rgba(0,0,0,0.95)) brightness(1.0)', duration: 1.5, ease: 'power2.out' }, 1.0)
+    if (shadowVeil) {
+      tl.to(shadowVeil, { opacity: 0.35, duration: 1.5, ease: 'power1.inOut' }, 1.0)
     }
-
-    // 2.5s – 3.8s: Light sweeps along side shoulder and alloy wheels
-    if (softbox) {
-      tl.to(softbox, { xPercent: 130, duration: 1.6, ease: 'power2.inOut' }, 2.4)
-    }
-
-    // 3.0s – 3.8s: Typography reveals with cinematic grandeur
-    if (tag) tl.to(tag, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 2.8)
-    if (title) tl.to(title, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, 2.9)
-    if (tagline) tl.to(tagline, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 3.1)
-
-    // Softbox fades out
-    if (softbox) tl.to(softbox, { opacity: 0, duration: 0.8, ease: 'power1.out' }, 3.6)
-
-    // 4.0s – 5.4s: THE MORPH & SETTLE INTO HOMEPAGE
-    // Letters move & scale down into exact home page position
-    tl.to(
-      [tag, title, tagline],
-      {
-        x: 0,
-        y: 0,
-        scale: 1,
-        duration: 1.4,
-        ease: 'power3.inOut'
-      },
-      4.0
-    )
-
-    // Car scales down & moves to its right-aligned home page position
-    if (car) {
+    if (silverCar) {
       tl.to(
-        car,
+        silverCar,
         {
-          scale: 1.0,
-          xPercent: 0,
-          yPercent: 0,
-          opacity: 1.0,
-          filter: 'drop-shadow(0 30px 60px rgba(0, 0, 0, 0.9)) brightness(1)',
-          duration: 1.4,
-          ease: 'power3.inOut'
+          opacity: 0.9,
+          filter: 'drop-shadow(0 30px 60px rgba(0, 0, 0, 0.95)) brightness(0.95)',
+          duration: 1.5,
+          ease: 'power2.out'
         },
-        4.0
+        1.0
       )
     }
 
-    // Secondary homepage UI (paragraph, actions, price) slide in
+    // 2.5s – 3.8s: Light sweeps along side shoulder and forged wheels
+    if (softbox) {
+      tl.to(softbox, { xPercent: 130, duration: 1.6, ease: 'power2.inOut' }, 2.4)
+    }
+    if (shadowVeil) {
+      tl.to(shadowVeil, { opacity: 0, duration: 1.2, ease: 'power2.out' }, 2.4)
+    }
+    if (silverCar) {
+      tl.to(
+        silverCar,
+        {
+          opacity: 1.0,
+          filter: 'drop-shadow(0 30px 60px rgba(0, 0, 0, 0.95)) brightness(1.0)',
+          duration: 1.5,
+          ease: 'power2.out'
+        },
+        2.4
+      )
+    }
+
+    // 2.8s – 3.6s: Typography reveals in cinematic center posture
+    if (tag) tl.to(tag, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, 2.8)
+    if (title) tl.to(title, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 2.9)
+    if (tagline) tl.to(tagline, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, 3.1)
+
+    // 3.8s – 5.2s: THE SEAMLESS MORPH (Continuous, single vehicle, no crossfade!)
+    // 1. Copy box glides from center to the left-hand hero column
+    if (copyBox) {
+      tl.to(
+        copyBox,
+        {
+          xPercent: 0,
+          yPercent: 0,
+          duration: 1.4,
+          ease: 'power3.inOut'
+        },
+        3.8
+      )
+    }
+
+    // 2. Media container scales down & glides to the right-hand hero column
+    if (mediaContainer) {
+      tl.to(
+        mediaContainer,
+        {
+          xPercent: 0,
+          yPercent: 0,
+          scale: 1.0,
+          duration: 1.4,
+          ease: 'power3.inOut'
+        },
+        3.8
+      )
+    }
+
+    // 3. Softbox fades out
+    if (softbox) {
+      tl.to(softbox, { opacity: 0, duration: 0.6, ease: 'power1.out' }, 3.6)
+    }
+
+    // 4. Studio backdrop dissolves away revealing ambient hero gradient
+    if (backdrop) {
+      tl.to(backdrop, { opacity: 0, duration: 1.2, ease: 'power2.inOut' }, 4.0)
+    }
+
+    // 5. Skip button & progress bar fade out before morph completes
+    if (skipBtn) tl.to(skipBtn, { opacity: 0, duration: 0.4, ease: 'power1.out' }, 3.9)
+    if (progressFill) tl.to(progressFill, { opacity: 0, duration: 0.4, ease: 'power1.out' }, 4.2)
+
+    // 6. Secondary hero UI & Navbar glide in seamlessly
     if (secondaryEls) {
       tl.to(
         secondaryEls,
         {
           opacity: 1,
           y: 0,
-          duration: 0.9,
+          duration: 0.8,
           ease: 'power2.out',
           stagger: 0.08
         },
-        4.4
+        4.3
       )
     }
+    tl.to('.navbar', { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 4.4)
 
-    // Navbar drops into position
-    if (navbar) {
-      tl.to(
-        navbar,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power2.out'
-        },
-        4.4
-      )
-    }
-
-    // Cinematic backdrop dissolves away
-    if (backdrop) {
-      tl.to(backdrop, { opacity: 0, duration: 1.2, ease: 'power2.inOut' }, 4.1)
-    }
-
-    // Skip button fades out
-    if (skipBtn) {
-      tl.to(skipBtn, { opacity: 0, duration: 0.4, ease: 'power1.out' }, 4.0)
-    }
-
-    // Event listeners to bypass opening
+    // User interactions to bypass (Scroll or Keypress)
     const handleKey = (e) => {
       if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') {
         handleSkipIntro()
@@ -229,6 +301,7 @@ export default function Hero({
 
     return () => {
       document.body.style.overflow = ''
+      document.body.classList.remove('cinematic-active')
       window.removeEventListener('keydown', handleKey)
       window.removeEventListener('wheel', handleWheel)
       if (tl) tl.kill()
@@ -319,26 +392,38 @@ export default function Hero({
   }
 
   return (
-    <section id="top" ref={heroRef} className="hero-section">
+    <section
+      id="top"
+      ref={heroRef}
+      className={`hero-section ${isCinematicActive ? 'is-cinematic-active' : ''}`}
+    >
       {/* Background Atmospheres */}
       <div className="hero-bg-atmosphere" />
       <div className="hero-stage-atmosphere-shift" />
-      <div className="hero-cinematic-backdrop" />
 
-      {/* Dynamic Moving Softbox Studio Light Source */}
-      <div className="hero-cinematic-softbox" />
+      {/* First Light Studio Lighting & Shadow Layers */}
+      {isCinematicActive && (
+        <>
+          <div className="hero-cinematic-backdrop" />
+          <div className="hero-cinematic-shadow-veil" />
+          <div className="hero-cinematic-softbox" />
 
-      {/* Minimalist Skip Button */}
-      {!isCinematicDone && (
-        <button
-          type="button"
-          className="cinematic-skip-btn"
-          onClick={handleSkipIntro}
-          aria-label="Skip opening cinematic"
-        >
-          <span>SKIP INTRO</span>
-          <span className="skip-arrow">→</span>
-        </button>
+          {/* Minimalist Skip Button */}
+          <button
+            type="button"
+            className="cinematic-skip-btn"
+            onClick={handleSkipIntro}
+            aria-label="Skip opening cinematic"
+          >
+            <span>SKIP INTRO</span>
+            <span className="skip-arrow">→</span>
+          </button>
+
+          {/* Progress Line */}
+          <div className="cinematic-progress-bar">
+            <div className="cinematic-progress-fill" />
+          </div>
+        </>
       )}
 
       <div className="container hero-grid">
@@ -389,12 +474,14 @@ export default function Hero({
 
         <div className="hero-media-container">
           <div className="hero-light-flare" />
+          {/* Canonical Lunar Silver Hero Vehicle (used for both cinematic intro & hero display) */}
           <img
             src={vehicleImg}
             alt="LK Aurelis Grand Touring Automobile"
             className="hero-car-silver"
             fetchPriority="high"
           />
+          {/* Black Vehicle for Configure Morph */}
           <img
             src={morphImg}
             alt="LK Aurelis Obsidian Black"
@@ -406,3 +493,4 @@ export default function Hero({
     </section>
   )
 }
+

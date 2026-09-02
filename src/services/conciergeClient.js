@@ -83,6 +83,12 @@ export async function sendConciergeMessage({
                 onChunk(accumulatedText)
               }
             }
+            if (data.fullText && (!accumulatedText || accumulatedText.length < data.fullText.length)) {
+              accumulatedText = data.fullText
+              if (typeof onChunk === 'function') {
+                onChunk(accumulatedText)
+              }
+            }
             if (data.actions) {
               actions = data.actions
             }

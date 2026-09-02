@@ -70,7 +70,6 @@ export function useConcierge({ currentConfiguration = null, currentSection = '' 
       try {
         const conversationHistory = messagesRef.current
           .filter(m => !m.isWelcome && m.content)
-          .concat(userMsg)
 
         const response = await sendConciergeMessage({
           message: trimmed,

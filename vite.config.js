@@ -8,25 +8,9 @@ import { handleEnquirySubmission } from './api/enquiries.js'
 function refreshEnvVariables(mode = 'development') {
   const env = loadEnv(mode, process.cwd(), '')
   let apiKey = env.GEMINI_API_KEY || process.env.GEMINI_API_KEY || ''
-  let modelName = env.GEMINI_MODEL || process.env.GEMINI_MODEL || 'gemini-flash-latest'
+  let modelName = env.GEMINI_MODEL || process.env.GEMINI_MODEL || 'gemini-3.6-flash'
   if (modelName === 'gemini-2.5-flash' || modelName === 'gemini-2.0-flash' || modelName === 'gemini-1.5-flash') {
-    modelName = 'gemini-flash-latest'
-  }
-
-  // Fallback: If not found in .env, check if user saved it in .env.example
-  if (!apiKey) {
-    try {
-      const examplePath = path.resolve(process.cwd(), '.env.example')
-      if (fs.existsSync(examplePath)) {
-        const exampleContent = fs.readFileSync(examplePath, 'utf-8')
-        const match = exampleContent.match(/^GEMINI_API_KEY=(.+)$/m)
-        if (match && match[1] && !match[1].includes('your-gemini-api-key-here')) {
-          apiKey = match[1].trim().replace(/^["']|["']$/g, '')
-        }
-      }
-    } catch (e) {
-      // Ignore file read error
-    }
+    modelName = 'gemini-3.6-flash'
   }
 
   process.env.GEMINI_API_KEY = apiKey

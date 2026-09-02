@@ -4,18 +4,14 @@ import { GoogleGenAI } from '@google/genai'
 import { BASE_VEHICLE_PRICE, FINISHES, WHEELS, INTERIORS, DETAILS } from '../src/data/configuratorData.js'
 
 export function getGeminiApiKey() {
-  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim()) {
-    return process.env.GEMINI_API_KEY.trim()
-  }
-
-  // Check .env
+  // Try loading directly from .env first to always get latest edited key
   try {
     const envPath = path.resolve(process.cwd(), '.env')
     if (fs.existsSync(envPath)) {
       const content = fs.readFileSync(envPath, 'utf-8')
       const match = content.match(/^GEMINI_API_KEY=(.+)$/m)
       if (match && match[1] && !match[1].includes('your-gemini-api-key-here')) {
-        const val = match[1].trim().replace(/^["']|["']$/g, '')
+        const val = match[1].trim().replace(/^["']|["']$/g, '').split('#')[0].trim()
         if (val) {
           process.env.GEMINI_API_KEY = val
           return val
@@ -23,36 +19,51 @@ export function getGeminiApiKey() {
       }
     }
   } catch (e) {
-    // Ignore
+    // Ignore file read error
   }
 
-  // Check .env.example
-  try {
-    const examplePath = path.resolve(process.cwd(), '.env.example')
-    if (fs.existsSync(examplePath)) {
-      const content = fs.readFileSync(examplePath, 'utf-8')
-      const match = content.match(/^GEMINI_API_KEY=(.+)$/m)
-      if (match && match[1] && !match[1].includes('your-gemini-api-key-here')) {
-        const val = match[1].trim().replace(/^["']|["']$/g, '')
-        if (val) {
-          process.env.GEMINI_API_KEY = val
-          return val
-        }
-      }
-    }
-  } catch (e) {
-    // Ignore
+  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim()) {
+    return process.env.GEMINI_API_KEY.trim()
   }
 
   return ''
 }
 
-function getGeminiModel() {
-  const model = process.env.GEMINI_MODEL
-  if (!model || model === 'gemini-2.5-flash' || model === 'gemini-2.0-flash' || model === 'gemini-1.5-flash') {
-    return 'gemini-flash-latest'
+export function getGeminiModel() {
+  try {
+    const envPath = path.resolve(process.cwd(), '.env')
+    if (fs.existsSync(envPath)) {
+      const content = fs.readFileSync(envPath, 'utf-8')
+      const match = content.match(/^GEMINI_MODEL=(.+)$/m)
+      if (match && match[1]) {
+        const val = match[1].trim().replace(/^["']|["']$/g, '').split('#')[0].trim()
+        if (
+          val &&
+          val !== 'gemini-2.5-flash' &&
+          val !== 'gemini-2.0-flash' &&
+          val !== 'gemini-1.5-flash' &&
+          val !== 'gemini-flash-latest'
+        ) {
+          return val
+        }
+      }
+    }
+  } catch (e) {
+    // Ignore read error
   }
-  return model
+
+  const model = process.env.GEMINI_MODEL
+  if (
+    model &&
+    model.trim() &&
+    model !== 'gemini-2.5-flash' &&
+    model !== 'gemini-2.0-flash' &&
+    model !== 'gemini-1.5-flash' &&
+    model !== 'gemini-flash-latest'
+  ) {
+    return model.trim()
+  }
+  return 'gemini-3.6-flash'
 }
 
 // In-memory rate limiting map: ip -> { count, resetTime }
@@ -161,6 +172,50 @@ function validateActions(rawActions) {
 }
 
 /**
+ * Normalizes multi-turn conversation history to guarantee strict compliance
+ * with Gemini API role alternation rules ([user, model, user, model, user]).
+ */
+function buildCleanContents(rawHistory = [], currentPromptText = '') {
+  const turns = []
+
+  if (Array.isArray(rawHistory)) {
+    for (const item of rawHistory) {
+      if (!item || typeof item !== 'object') continue
+      const text = sanitizeString(item.content || '', 1000)
+      if (!text) continue
+
+      const role = item.role === 'model' ? 'model' : 'user'
+
+      if (turns.length === 0) {
+        if (role === 'user') {
+          turns.push({ role: 'user', parts: [{ text }] })
+        }
+      } else {
+        const lastRole = turns[turns.length - 1].role
+        if (role !== lastRole) {
+          turns.push({ role, parts: [{ text }] })
+        } else {
+          turns[turns.length - 1].parts[0].text += `\n\n${text}`
+        }
+      }
+    }
+  }
+
+  // If last history turn is user, pop it to avoid duplicate user turns
+  if (turns.length > 0 && turns[turns.length - 1].role === 'user') {
+    turns.pop()
+  }
+
+  // Append current user prompt as the final turn
+  turns.push({
+    role: 'user',
+    parts: [{ text: currentPromptText }]
+  })
+
+  return turns
+}
+
+/**
  * Grounded System Prompt for AURELIS Digital Concierge
  */
 const AURELIS_SYSTEM_INSTRUCTION = `
@@ -250,9 +305,10 @@ Do NOT include "---ACTIONS---" unless you are providing actionable recommendatio
  */
 export async function streamConciergeRequest(payload = {}, res, clientIp = '127.0.0.1') {
   if (!checkRateLimit(clientIp)) {
-    res.setHeader('Content-Type', 'text/event-stream')
-    res.setHeader('Cache-Control', 'no-cache')
+    res.setHeader('Content-Type', 'text/event-stream; charset=utf-8')
+    res.setHeader('Cache-Control', 'no-cache, no-transform')
     res.setHeader('Connection', 'keep-alive')
+    res.setHeader('X-Accel-Buffering', 'no')
     res.write(`data: ${JSON.stringify({ chunk: 'The concierge is receiving a high number of requests. Please allow a moment before asking your next question.' })}\n\n`)
     res.write(`data: ${JSON.stringify({ done: true, actions: [] })}\n\n`)
     res.end()
@@ -263,9 +319,10 @@ export async function streamConciergeRequest(payload = {}, res, clientIp = '127.
   const sanitizedMessage = sanitizeString(rawMessage, 600)
 
   if (!sanitizedMessage) {
-    res.setHeader('Content-Type', 'text/event-stream')
-    res.setHeader('Cache-Control', 'no-cache')
+    res.setHeader('Content-Type', 'text/event-stream; charset=utf-8')
+    res.setHeader('Cache-Control', 'no-cache, no-transform')
     res.setHeader('Connection', 'keep-alive')
+    res.setHeader('X-Accel-Buffering', 'no')
     res.write(`data: ${JSON.stringify({ chunk: 'Please provide a message or question about the LK AURELIS.' })}\n\n`)
     res.write(`data: ${JSON.stringify({ done: true, actions: [] })}\n\n`)
     res.end()
@@ -306,15 +363,6 @@ export async function streamConciergeRequest(payload = {}, res, clientIp = '127.
   try {
     const ai = new GoogleGenAI({ apiKey })
 
-    // Build bounded multi-turn conversation history
-    const historyTurns = Array.isArray(payload.history)
-      ? payload.history.slice(-10).map(turn => ({
-          role: turn.role === 'user' ? 'user' : 'model',
-          parts: [{ text: sanitizeString(turn.content, 1000) }]
-        }))
-      : []
-
-    // Append context metadata if present
     let contextNote = ''
     if (payload.context?.currentSection) {
       contextNote += ` [Context: Visitor is currently viewing website section '${sanitizeString(payload.context.currentSection, 50)}']`
@@ -325,8 +373,9 @@ export async function streamConciergeRequest(payload = {}, res, clientIp = '127.
     }
 
     const currentPromptText = `${sanitizedMessage}${contextNote}`
+    const contents = buildCleanContents(payload.history, currentPromptText)
 
-    const candidateModels = [modelName, 'gemini-flash-latest', 'gemini-2.5-flash-lite', 'gemini-3-flash-preview'].filter(
+    const candidateModels = [modelName, 'gemini-3.6-flash', 'gemini-3-flash-preview', 'gemini-2.5-flash-lite', 'gemini-3.6-pro', 'gemini-flash-latest'].filter(
       (m, idx, arr) => m && arr.indexOf(m) === idx
     )
 
@@ -337,13 +386,7 @@ export async function streamConciergeRequest(payload = {}, res, clientIp = '127.
       try {
         responseStream = await ai.models.generateContentStream({
           model: candidate,
-          contents: [
-            ...historyTurns,
-            {
-              role: 'user',
-              parts: [{ text: currentPromptText }]
-            }
-          ],
+          contents,
           config: {
             systemInstruction: AURELIS_SYSTEM_INSTRUCTION,
             temperature: 0.4,
@@ -364,6 +407,7 @@ export async function streamConciergeRequest(payload = {}, res, clientIp = '127.
     let accumulatedText = ''
     let actionsExtracted = false
     let actionJsonBuffer = ''
+    let sentLength = 0
 
     for await (const chunk of responseStream) {
       const chunkText = chunk.text || ''
@@ -373,6 +417,17 @@ export async function streamConciergeRequest(payload = {}, res, clientIp = '127.
         if (accumulatedText.includes('---ACTIONS---')) {
           actionsExtracted = true
           const parts = accumulatedText.split('---ACTIONS---')
+          const displayText = parts[0]
+          const unsentPrefix = displayText.slice(sentLength)
+
+          if (unsentPrefix) {
+            res.write(`data: ${JSON.stringify({ chunk: unsentPrefix })}\n\n`)
+            if (typeof res.flush === 'function') {
+              res.flush()
+            }
+            sentLength += unsentPrefix.length
+          }
+
           actionJsonBuffer = parts[1] || ''
         } else {
           // Stream pure display text chunk to client
@@ -380,11 +435,17 @@ export async function streamConciergeRequest(payload = {}, res, clientIp = '127.
           if (typeof res.flush === 'function') {
             res.flush()
           }
+          sentLength += chunkText.length
         }
       } else {
         actionJsonBuffer += chunkText
       }
     }
+
+    // Clean display text
+    const cleanDisplayText = accumulatedText.includes('---ACTIONS---')
+      ? accumulatedText.split('---ACTIONS---')[0].trim()
+      : accumulatedText.trim()
 
     // Parse and validate any structured actions
     let validatedActions = []
@@ -398,14 +459,36 @@ export async function streamConciergeRequest(payload = {}, res, clientIp = '127.
       }
     }
 
-    res.write(`data: ${JSON.stringify({ done: true, actions: validatedActions })}\n\n`)
+    res.write(
+      `data: ${JSON.stringify({
+        done: true,
+        fullText: cleanDisplayText,
+        actions: validatedActions
+      })}\n\n`
+    )
     res.end()
   } catch (err) {
     console.error('AURELIS Concierge Streaming Error:', err)
+    const errMsg = String(err?.message || '')
+    const isSuspended = errMsg.includes('CONSUMER_SUSPENDED') || errMsg.includes('suspended')
+    const isAuthError =
+      err?.status === 401 ||
+      err?.status === 403 ||
+      errMsg.includes('API key') ||
+      errMsg.includes('UNAUTHENTICATED') ||
+      errMsg.includes('PERMISSION_DENIED')
+
+    let userMessage = 'I encountered a temporary communication issue while connecting to the AURELIS intelligence service. Please try asking your question again.'
+
+    if (isSuspended) {
+      userMessage = 'The Google Cloud project associated with your API key has been suspended by Google. In Google AI Studio (aistudio.google.com/app/apikey), please click "Create API key in new project" to create a key under a fresh, active project.'
+    } else if (isAuthError) {
+      userMessage = 'The AURELIS Digital Concierge was unable to authenticate with the Gemini service. Please ensure a valid Google AI Studio Gemini API key is configured in your server environment.'
+    }
+
     res.write(
       `data: ${JSON.stringify({
-        chunk:
-          'I encountered a temporary communication issue while connecting to the AURELIS intelligence service. Please try asking your question again.'
+        chunk: userMessage
       })}\n\n`
     )
     res.write(
@@ -467,13 +550,6 @@ export async function handleConciergeRequest(payload = {}, clientIp = '127.0.0.1
   try {
     const ai = new GoogleGenAI({ apiKey })
 
-    const historyTurns = Array.isArray(payload.history)
-      ? payload.history.slice(-10).map(turn => ({
-          role: turn.role === 'user' ? 'user' : 'model',
-          parts: [{ text: sanitizeString(turn.content, 1000) }]
-        }))
-      : []
-
     let contextNote = ''
     if (payload.context?.currentSection) {
       contextNote += ` [Context: Visitor is viewing section '${sanitizeString(payload.context.currentSection, 50)}']`
@@ -484,8 +560,9 @@ export async function handleConciergeRequest(payload = {}, clientIp = '127.0.0.1
     }
 
     const currentPromptText = `${sanitizedMessage}${contextNote}`
+    const contents = buildCleanContents(payload.history, currentPromptText)
 
-    const candidateModels = [modelName, 'gemini-flash-latest', 'gemini-2.5-flash-lite', 'gemini-3-flash-preview'].filter(
+    const candidateModels = [modelName, 'gemini-3.6-flash', 'gemini-3-flash-preview', 'gemini-2.5-flash-lite', 'gemini-3.6-pro', 'gemini-flash-latest'].filter(
       (m, idx, arr) => m && arr.indexOf(m) === idx
     )
 
@@ -496,13 +573,7 @@ export async function handleConciergeRequest(payload = {}, clientIp = '127.0.0.1
       try {
         response = await ai.models.generateContent({
           model: candidate,
-          contents: [
-            ...historyTurns,
-            {
-              role: 'user',
-              parts: [{ text: currentPromptText }]
-            }
-          ],
+          contents,
           config: {
             systemInstruction: AURELIS_SYSTEM_INSTRUCTION,
             temperature: 0.4,
@@ -547,12 +618,28 @@ export async function handleConciergeRequest(payload = {}, clientIp = '127.0.0.1
     }
   } catch (err) {
     console.error('AURELIS Concierge API Error:', err)
+    const errMsg = String(err?.message || '')
+    const isSuspended = errMsg.includes('CONSUMER_SUSPENDED') || errMsg.includes('suspended')
+    const isAuthError =
+      err?.status === 401 ||
+      err?.status === 403 ||
+      errMsg.includes('API key') ||
+      errMsg.includes('UNAUTHENTICATED') ||
+      errMsg.includes('PERMISSION_DENIED')
+
+    let userMessage = 'I encountered a temporary communication issue while connecting to the AURELIS intelligence service. Please try asking your question again.'
+
+    if (isSuspended) {
+      userMessage = 'The Google Cloud project associated with your API key has been suspended by Google. In Google AI Studio (aistudio.google.com/app/apikey), please click "Create API key in new project" to create a key under a fresh, active project.'
+    } else if (isAuthError) {
+      userMessage = 'The AURELIS Digital Concierge was unable to authenticate with the Gemini service. Please ensure a valid Google AI Studio Gemini API key is configured in your server environment.'
+    }
+
     return {
       status: 200,
       body: {
         success: true,
-        message:
-          'I encountered a temporary communication issue while connecting to the AURELIS intelligence service. Please try asking your question again.',
+        message: userMessage,
         actions: [
           { type: 'navigate', target: 'performance', label: 'EXPLORE PERFORMANCE' },
           { type: 'navigate', target: 'configure', label: 'CONFIGURE AURELIS' }
