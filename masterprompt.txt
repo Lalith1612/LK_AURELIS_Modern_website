@@ -1,0 +1,1579 @@
+You are now the primary implementation agent for the LK AURELIS premium automotive website.
+
+This is a complete redesign and refinement pass.
+
+Do not treat this as a small CSS cleanup. The current website has accumulated layout, typography, spacing, responsive, hierarchy, and visual-composition problems. I want you to audit the existing implementation and substantially rebuild the frontend architecture where necessary.
+
+The final result must feel like a real premium automotive manufacturer's flagship website, not a student portfolio, concept-art landing page, or collection of oversized typography sections.
+
+The design direction is:
+
+Luxury first. Technology second. Cinematic but restrained.
+
+Think of an extremely high-end automotive brand website: sophisticated editorial typography, dramatic vehicle imagery, generous negative space, precise grids, subtle motion, premium materials, controlled transitions, and excellent usability.
+
+1. CORE BRAND
+
+Brand:
+
+LK AURELIS
+
+Vehicle:
+
+AURELIS
+
+Positioning:
+
+A premium electric grand tourer.
+
+Existing headline specifications that MUST remain:
+
+620 kW
+720 km range
+0–100 km/h: 3.4 s
+Dual-motor AWD
+Starting price: $185,000
+
+These are fictional/concept specifications for the LK AURELIS website.
+
+Do not replace these numbers.
+
+Build the rest of the specification system around them in a believable, coherent and premium way.
+
+Where additional specifications are needed but have not been explicitly established, clearly treat them as concept specifications rather than pretending they are independently verified real-world specifications.
+
+2. VERY IMPORTANT — RESEARCH REFERENCE
+
+Use the official Mahindra BE 6 SPORTEQ website and associated official material as a research/reference source for information architecture and the breadth of automotive information we should present.
+
+Reference:
+
+https://www.mahindraelectricsuv.com/esuv/be6sporteq.html
+
+The reference material includes categories such as:
+
+performance
+design
+safety
+technology
+comfort & convenience
+battery/charging
+connected features
+ADAS
+interior equipment
+infotainment
+driver assistance
+vehicle dynamics
+cabin comfort
+storage/practicality
+variant/specification presentation
+
+The official material also presents technologies such as battery systems, charging, vehicle dynamics, braking, cabin comfort, digital cockpit, connectivity, ADAS, adaptive suspension, ambient lighting, premium audio, wireless charging, etc.
+
+BUT:
+
+Do NOT clone the Mahindra website.
+
+Do NOT copy:
+
+Mahindra branding
+Mahindra logos
+Mahindra-specific names
+Mahindra slogans
+Mahindra proprietary product names
+Mahindra imagery
+Mahindra copy verbatim
+Mahindra layout
+Mahindra visual identity
+
+Use the source only to understand what information a premium modern EV website should communicate.
+
+Everything presented as AURELIS content must be rewritten and adapted to the fictional LK AURELIS brand.
+
+3. FIRST: AUDIT THE EXISTING WEBSITE
+
+Before modifying anything, inspect the entire existing codebase.
+
+Identify:
+
+all components
+all sections
+existing routes
+existing assets
+videos
+images
+fonts
+CSS
+responsive rules
+animations
+scroll logic
+navigation logic
+section IDs
+reusable components
+duplicated CSS
+hard-coded dimensions
+viewport-dependent hacks
+overflow issues
+z-index conflicts
+absolute positioning
+transform-based positioning
+sticky/fixed elements
+mobile behavior
+
+Do not blindly preserve problematic architecture.
+
+If a component needs to be rebuilt, rebuild it cleanly.
+
+4. FIX THE FUNDAMENTAL PROBLEM
+
+The biggest visual problem currently is:
+
+TEXT IS BEING TREATED AS A DECORATIVE OVERLAY INSTEAD OF CONTENT WITHIN A REAL LAYOUT SYSTEM.
+
+This must stop.
+
+Examples currently visible include:
+
+giant headings crossing into image areas
+text sitting over cars unintentionally
+headings behind/under navigation
+typography being clipped
+words extending outside intended containers
+text crossing grid boundaries
+sections becoming visually ambiguous
+giant typography colliding with feature lists
+content becoming unreadable at different viewport sizes
+New rule:
+
+Every major text block must belong to a deliberate layout region.
+
+Use:
+
+CSS Grid
+Flexbox
+max-width containers
+controlled typography
+clamp()
+responsive breakpoints
+intentional overlap only when explicitly designed
+
+Do NOT solve layout problems by randomly decreasing font sizes.
+
+Do NOT solve layout problems with arbitrary negative margins.
+
+Do NOT use excessive absolute positioning.
+
+Do NOT let text overlap an image simply because the desktop screenshot looks dramatic.
+
+5. RESPONSIVE DESIGN
+
+The website must be designed for:
+
+1440px desktop
+1280px desktop
+1024px laptop/tablet landscape
+768px tablet
+390px mobile
+360px mobile
+
+Do not make desktop first and then patch mobile afterward.
+
+Every section must have an intentional responsive composition.
+
+Desktop
+
+Use sophisticated editorial layouts.
+
+Tablet
+
+Rebalance columns and typography.
+
+Mobile
+
+Do NOT simply shrink the desktop layout.
+
+Recompose sections.
+
+For example:
+
+Desktop:
+
+TEXT          IMAGE
+TEXT          IMAGE
+TEXT          IMAGE
+
+Mobile:
+
+TEXT
+TEXT
+IMAGE
+
+or:
+
+IMAGE
+TEXT
+
+depending on the section.
+
+6. TYPOGRAPHY SYSTEM
+
+Create a proper typography system.
+
+Use a refined combination of:
+
+Display font
+
+A clean, extremely refined modern grotesk/sans-serif.
+
+Large headings should feel architectural rather than merely huge.
+
+Editorial/italic font
+
+Use the existing elegant serif/italic treatment where appropriate.
+
+For example:
+
+Precision, given form.
+
+The road, redefined.
+
+But use it sparingly.
+
+Supporting typography
+
+Create consistent styles for:
+
+eyebrow labels
+section numbers
+navigation
+body copy
+specifications
+captions
+metadata
+buttons
+footer text
+
+Do not allow typography styles to be individually improvised section-by-section.
+
+7. TYPOGRAPHY SCALE
+
+Create a responsive scale.
+
+For example:
+
+--display-xl
+--display-lg
+--display-md
+--heading-lg
+--heading-md
+--body-lg
+--body-md
+--body-sm
+--label
+--caption
+
+Use clamp() wherever appropriate.
+
+The largest headings should be dramatic but NEVER clipped accidentally.
+
+Every heading must remain readable and visually intentional at every viewport.
+
+8. GRID SYSTEM
+
+Create a consistent premium editorial grid.
+
+Suggested structure:
+
+max-width content container
+12-column desktop grid
+6-column tablet grid
+4-column/mobile grid
+consistent horizontal margins
+consistent vertical rhythm
+
+Do not allow every section to invent its own margins.
+
+Create shared layout primitives/components.
+
+9. NAVIGATION
+
+Redesign the navbar.
+
+Current navigation:
+
+AURELIS
+DESIGN
+ENGINEERING
+PERFORMANCE
+CONFIGURE
+
+Keep the general information architecture but make the navigation substantially more premium.
+
+Requirements:
+
+elegant typography
+restrained spacing
+subtle active indicator
+smooth transition
+readable against both dark and light sections
+no text collision
+correct z-index
+accessible keyboard navigation
+mobile navigation
+smooth section navigation
+
+The navbar should feel like a premium automotive interface rather than a generic React navigation bar.
+
+10. HERO SECTION
+
+The hero is the most important section.
+
+It should immediately communicate:
+
+LK AURELIS
+
+The road, redefined.
+
+A premium electric grand tourer.
+
+Keep the vehicle imagery dramatic.
+
+But do NOT put giant text directly across the vehicle unless it is deliberately composed.
+
+Create a clear hierarchy:
+
+LK AURELIS · 2026
+
+AURELIS
+
+The road, redefined.
+
+FROM $185,000
+
+[CONFIGURE YOUR AURELIS] [EXPLORE THE DESIGN]
+
+Vehicle imagery should have room to breathe.
+
+The hero must feel cinematic.
+
+11. HERO VIDEO
+
+The existing video should play normally in its own position.
+
+IMPORTANT:
+
+We previously experimented with scroll-controlled video playback and it looked laggy.
+
+Do NOT bring that behavior back.
+
+The video must:
+
+play normally
+not be scrubbed by scrolling
+not depend on scroll position
+not freeze after one scroll
+not manipulate currentTime on every scroll event
+not cause layout jank
+be muted/autoplay where browser policy permits
+loop where appropriate
+use playsInline
+degrade gracefully if video cannot autoplay
+
+Scrolling should simply reveal the video naturally.
+
+12. SECTION 01 — AURELIS
+
+Create a strong introductory section.
+
+Content:
+
+THE GRAND TOURER · 01
+
+AURELIS
+
+Precision, given form.
+
+Supporting copy:
+
+An uncompromising grand touring automobile engineered around silence, presence and effortless performance.
+
+Use a sophisticated two-part composition.
+
+Text should occupy its own grid region.
+
+Vehicle imagery/video should occupy another.
+
+No accidental overlap.
+
+13. SECTION 02 — DESIGN
+
+Create a complete design story.
+
+Heading:
+
+DESIGNED WITHOUT COMPROMISE.
+
+Supporting narrative around:
+
+proportion
+silhouette
+lighting
+aerodynamic form
+surface treatment
+wheel design
+lighting signatures
+flush elements
+glass
+stance
+
+Use:
+
+large photography
+controlled image crops
+detail shots
+cinematic transitions
+captions
+
+Do NOT place the heading across the car.
+
+The image and typography should interact without destroying readability.
+
+14. EXTERIOR DESIGN GALLERY
+
+Create a premium gallery containing conceptual subsections:
+
+FRONT
+lighting signature
+grille/front treatment
+illuminated AURELIS emblem
+PROFILE
+long-wheelbase grand-tourer proportion
+flush door handles
+sculpted body
+aerodynamic surfaces
+REAR
+full-width lighting treatment
+refined rear profile
+aerodynamic detailing
+WHEELS
+premium alloy wheel design
+performance-oriented stance
+
+Use large cinematic imagery with small editorial captions.
+
+15. SECTION 03 — PERFORMANCE
+
+Create a dedicated performance section.
+
+Heading:
+
+EFFORTLESSLY QUICK.
+
+Primary figures:
+
+3.4 s
+
+0–100 KM/H
+
+620 kW
+
+OUTPUT
+
+720 km
+
+RANGE
+
+Also build a deeper specification system around:
+
+dual-motor AWD
+torque delivery
+acceleration
+regenerative braking
+drive modes
+thermal management
+suspension
+braking
+steering
+aerodynamics
+efficiency
+
+Use restrained data visualization.
+
+Do NOT turn the section into a dashboard.
+
+It should feel like a luxury automotive editorial page.
+
+16. PERFORMANCE DETAIL
+
+Create supporting cards/sections for:
+
+DUAL-MOTOR AWD
+
+Instant torque. Intelligent distribution.
+
+ADAPTIVE DYNAMICS
+
+A composed ride at every speed.
+
+PRECISION STEERING
+
+Immediate response without nervousness.
+
+ACTIVE AERODYNAMICS
+
+Airflow shaped around performance and stability.
+
+BRAKING
+
+Confident stopping power under demanding conditions.
+
+17. SECTION 04 — ENGINEERING
+
+Create:
+
+ENGINEERED IN SILENCE.
+
+But make the typography fit inside its own column.
+
+Do NOT allow it to cross into the specification list.
+
+Use a layout similar to:
+
+ENGINEERING · 04
+
+ENGINEERED
+IN
+SILENCE.
+
+                    01  DUAL-MOTOR AWD
+                        description
+
+                    02  ACTIVE AERODYNAMICS
+                        description
+
+                    03  ADAPTIVE AIR SUSPENSION
+                        description
+
+                    04  CARBON-CERAMIC BRAKING
+                        description
+
+The current version of this section is actually close to the correct design direction.
+
+Preserve the concept, but improve:
+
+spacing
+hierarchy
+typography
+alignment
+responsive behavior
+readability
+18. ELECTRIC ARCHITECTURE
+
+Add a dedicated section explaining the AURELIS EV architecture.
+
+Create original AURELIS terminology.
+
+For example:
+
+AURELIS ELECTRIC ARCHITECTURE
+
+A high-voltage electric platform designed around:
+
+performance
+range
+thermal efficiency
+cabin space
+low center of gravity
+intelligent energy management
+
+Do not copy Mahindra's INGLO terminology.
+
+Create an AURELIS-specific architecture identity.
+
+19. BATTERY + CHARGING
+
+Add a proper charging story.
+
+Include:
+
+720 KM
+
+Target range.
+
+FAST DC CHARGING
+
+Create a conceptual charging specification around the AURELIS battery system.
+
+Because this is fictional, clearly label detailed figures as concept specifications unless already established.
+
+Include visual treatment for:
+
+battery
+charging curve
+home charging
+fast charging
+scheduled charging
+battery preconditioning
+regenerative braking
+20. INTERIOR EXPERIENCE
+
+This is a MAJOR new section.
+
+Build the entire section now even though the final interior imagery will be replaced later.
+
+Use premium placeholder/generated imagery.
+
+Heading:
+
+A CABIN DESIGNED AROUND YOU.
+
+Create subsections:
+
+COCKPIT
+driver-focused interface
+digital instrumentation
+clean controls
+premium materials
+SEATING
+sculpted seats
+premium upholstery
+ventilation
+ergonomic support
+MATERIALS
+graphite aluminium
+precision leather
+acoustic glass
+soft-touch surfaces
+hand-finished controls
+AMBIENT LIGHTING
+subtle configurable illumination
+architectural integration
+night-time cabin atmosphere
+PANORAMIC ROOF
+expansive glass
+natural light
+premium cabin atmosphere
+REAR CABIN
+generous legroom
+premium comfort
+independent climate experience
+charging/connectivity
+21. INTERIOR MATERIALS
+
+Create a sophisticated materials gallery.
+
+Current content:
+
+Graphite aluminium
+
+Precision leather
+
+Acoustic glass
+
+Hand-finished controls
+
+Expand it.
+
+Possible additional conceptual materials:
+
+brushed metal
+soft-touch textile
+technical mesh
+sculpted wood/metal accents
+sustainable premium surfaces
+
+But maintain restraint.
+
+The interior should feel expensive because of materiality and composition, not because of excessive decoration.
+
+22. TECHNOLOGY
+
+Create a technology section.
+
+Heading:
+
+INTELLIGENCE, BEAUTIFULLY INTEGRATED.
+
+Include conceptual features such as:
+
+digital cockpit
+dual display environment
+connected vehicle
+smartphone integration
+wireless charging
+5G connectivity
+over-the-air software updates
+voice interaction
+intelligent climate control
+personalized profiles
+remote vehicle controls
+
+Do not use Mahindra product names.
+
+Create AURELIS-specific terminology.
+
+23. AUDIO
+
+Create a dedicated premium audio story.
+
+Example:
+
+A PRIVATE CONCERT HALL.
+
+Discuss:
+
+immersive sound
+spatial audio
+cabin tuning
+multiple speaker zones
+quiet cabin acoustics
+
+Avoid claiming partnerships with real audio brands.
+
+24. SAFETY
+
+Create a complete safety section.
+
+Include:
+
+high-strength vehicle structure
+airbags
+advanced braking
+electronic stability systems
+parking sensors
+360° camera
+blind spot monitoring
+collision warning
+emergency braking
+lane assistance
+adaptive cruise
+driver attention monitoring
+
+Clearly distinguish:
+
+Driver assistance ≠ autonomous driving.
+
+Do not make exaggerated claims.
+
+25. ADAS
+
+Create an elegant interactive/visual section.
+
+Heading:
+
+A SECOND LAYER OF AWARENESS.
+
+Include:
+
+adaptive cruise control
+lane centering
+lane departure warning
+collision mitigation
+blind spot detection
+traffic sign recognition
+rear cross traffic alert
+emergency steering assistance
+
+Present them as driver assistance features, not autonomous driving.
+
+26. COMFORT & CONVENIENCE
+
+Create a section covering:
+
+dual-zone climate control
+rear climate
+ventilated seats
+powered seats
+keyless entry
+push-button start
+power tailgate
+smart storage
+frunk
+trunk
+wireless charging
+USB-C charging
+auto-dimming mirror
+rain sensing wipers
+automatic lighting
+27. CONNECTED AURELIS
+
+Create a dedicated connected-car experience.
+
+Conceptual system name:
+
+AURELIS CONNECT
+
+Features:
+
+remote lock/unlock
+vehicle status
+charging status
+scheduled charging
+cabin preconditioning
+trip information
+location
+digital key
+software updates
+service information
+
+Build the visual language as a premium digital ecosystem.
+
+28. PERSONALIZATION
+
+Create:
+
+MAKE IT YOURS.
+
+Allow the user to visually explore:
+
+EXTERIOR
+Graphite
+Silver
+Midnight
+Pearl
+Concept colors
+WHEELS
+multiple wheel concepts
+INTERIOR
+Dark
+Light
+Performance
+AMBIENT LIGHTING
+
+subtle variations.
+
+This can initially be visual/UI-only.
+
+Actual configuration functionality will be implemented later.
+
+29. SPECIFICATIONS
+
+Create a dedicated specification section.
+
+Do not dump specifications into one giant table.
+
+Group them:
+
+PERFORMANCE
+
+620 kW
+0–100 km/h — 3.4 s
+720 km range
+Dual-motor AWD
+
+ELECTRIC SYSTEM
+
+Battery capacity
+Charging
+Regeneration
+Thermal management
+
+DIMENSIONS
+
+Length
+Width
+Height
+Wheelbase
+Ground clearance
+
+CHASSIS
+
+Suspension
+Brakes
+Steering
+Wheels
+Tyres
+
+CABIN
+
+Seats
+Cargo
+Climate
+Displays
+Audio
+
+TECHNOLOGY
+
+Connectivity
+ADAS
+Digital key
+OTA updates
+
+Clearly label fictional/concept figures appropriately.
+
+30. REVIEWS
+
+At the end, create:
+
+WHAT PEOPLE ARE SAYING
+
+Use placeholder/editorial-style review cards.
+
+These are NOT genuine customer testimonials.
+
+Clearly structure them as placeholders that can later be replaced.
+
+Example:
+
+“AURELIS feels less like a machine and more like a piece of moving architecture.”
+
+— Placeholder Editorial Review
+
+Another:
+
+“The defining quality is not speed. It is composure.”
+
+— Placeholder Automotive Review
+
+Another:
+
+“Quiet, deliberate and unmistakably grand.”
+
+— Placeholder Owner Review
+
+Do not use real people's names.
+
+Do not imply these reviews are genuine.
+
+Make it visually elegant and easy for us to replace later.
+
+31. FINAL CTA
+
+Create a powerful closing section.
+
+Something like:
+
+THE ROAD IS YOURS.
+
+AURELIS
+
+The road, redefined.
+
+Buttons:
+
+CONFIGURE YOUR AURELIS
+
+EXPLORE THE VEHICLE
+
+REQUEST AN ENQUIRY
+
+These buttons do NOT need full functionality yet.
+
+We will implement internal links in the next phase.
+
+32. FOOTER
+
+Create a premium footer containing:
+
+LK AURELIS
+
+The road, redefined.
+
+Navigation:
+
+AURELIS
+DESIGN
+PERFORMANCE
+ENGINEERING
+INTERIOR
+TECHNOLOGY
+SAFETY
+CONFIGURE
+
+Information:
+
+Specifications
+Reviews
+Contact
+Legal
+Privacy
+
+Use:
+
+© 2026 LK AURELIS
+
+and a small disclaimer:
+
+All vehicle specifications and imagery shown are concept figures and visualizations.
+
+33. IMAGE SYSTEM
+
+The current website relies heavily on a few vehicle images.
+
+Improve the image architecture.
+
+Every major section should have a visual purpose.
+
+Use different crops/visual treatments for:
+
+hero
+exterior
+front
+side
+rear
+wheel
+interior
+cockpit
+seats
+materials
+technology
+performance
+engineering
+charging
+
+For now, use available AURELIS imagery where appropriate and create clearly replaceable placeholders for missing imagery.
+
+DO NOT permanently bake text into images.
+
+34. VIDEO SYSTEM
+
+Videos should be normal media elements.
+
+No scroll-scrubbing.
+
+No scroll-driven currentTime.
+
+No heavy scroll listeners.
+
+Use:
+
+autoplay
+muted
+loop
+playsInline
+
+where appropriate.
+
+Use IntersectionObserver only for sensible things such as:
+
+starting playback when entering viewport
+pausing when far outside viewport
+
+Do not constantly manipulate video playback during scrolling.
+
+35. ANIMATION PHILOSOPHY
+
+The animation style should be:
+
+slow + precise + restrained
+
+Use:
+
+opacity
+translate
+subtle scale
+clip-path
+mask reveals
+gentle image movement
+staggered text entrances
+
+Avoid:
+
+bouncing
+excessive parallax
+fast transforms
+gimmicky 3D
+excessive blur
+scroll-jacking
+huge movement
+animations that interfere with reading
+
+The website should feel expensive because it is confident, not because it is constantly moving.
+
+36. SCROLL BEHAVIOR
+
+Normal browser scrolling.
+
+Do NOT hijack scrolling.
+
+Do NOT build fake scroll containers unless absolutely necessary.
+
+Do NOT use scroll-triggered section snapping.
+
+The page should feel natural.
+
+37. PREMIUM TRANSITIONS
+
+Use subtle transitions between major sections.
+
+Dark → dark
+
+Dark → light
+
+Light → dark
+
+The transition should feel intentional.
+
+Avoid sudden hard cuts unless visually appropriate.
+
+38. LIGHT / DARK SECTIONS
+
+Use the existing contrast system:
+
+DARK
+near-black
+graphite
+deep blue-black
+warm white typography
+muted metallic accents
+LIGHT
+warm ivory
+soft stone
+black typography
+subtle grey rules
+
+Do not use pure white backgrounds everywhere.
+
+Do not use pure black everywhere.
+
+Create subtle tonal variation.
+
+39. COLOR SYSTEM
+
+Create CSS variables.
+
+For example:
+
+--black
+--deep-black
+--graphite
+--graphite-soft
+--ivory
+--warm-white
+--muted-white
+--champagne
+--line-dark
+--line-light
+
+Use the warm/champagne accent extremely sparingly.
+
+The accent should feel like a premium metal detail.
+
+40. MICRO-INTERACTIONS
+
+Buttons should have elegant hover states.
+
+Navigation links should have subtle active states.
+
+Image cards can gently scale on hover.
+
+Specification cards can reveal secondary information.
+
+But do not over-animate.
+
+41. ACCESSIBILITY
+
+Ensure:
+
+semantic HTML
+proper headings
+keyboard navigation
+focus states
+sufficient contrast
+alt text
+reduced-motion support
+buttons are actual buttons
+links are actual links
+
+Respect:
+
+prefers-reduced-motion
+42. PERFORMANCE
+
+This is extremely important.
+
+The website should remain smooth.
+
+Optimize:
+
+image loading
+image dimensions
+video loading
+lazy loading
+decoding
+component rendering
+animation
+scroll handling
+
+Avoid:
+
+expensive scroll handlers
+unnecessary React re-renders
+continuously running animation loops
+oversized images where unnecessary
+multiple simultaneous videos
+excessive DOM complexity
+
+Use GPU-friendly transforms for animation.
+
+43. NO LAYOUT HACKS
+
+Do NOT fix visual issues by adding random:
+
+margin-top: -...
+left: ...
+transform: translate(...)
+position: absolute
+z-index: 9999
+
+unless the design genuinely requires it.
+
+Every positioning decision must have a layout reason.
+
+44. IMPORTANT TYPOGRAPHIC RULE
+
+NEVER allow the following again:
+
+ENGINEERED
+IN
+SILENCE.
+
+crossing into the feature list.
+
+Never allow:
+
+DESIGNED WITHOUT
+COMPROMISE.
+
+to extend over the vehicle unintentionally.
+
+Never allow:
+
+CRAFTED
+FOR THE JOURNEY.
+
+to collide with the material cards.
+
+Never allow:
+
+AURELIS
+
+to be clipped.
+
+Never allow text to sit underneath the navbar.
+
+Never allow headings to disappear behind images.
+
+Never allow body text to become unreadable against the vehicle.
+
+The typography must always have a defined layout boundary.
+
+45. SECTION HEIGHTS
+
+Do not make every section artificially 100vh.
+
+This is one of the reasons the current site feels like a collection of slides.
+
+Some sections should be:
+
+70vh
+80vh
+auto
+100vh
+120vh
+
+depending on content.
+
+Let content determine height.
+
+46. REMOVE THE "EVERYTHING IS HUGE" PROBLEM
+
+The current site relies too heavily on enormous headings.
+
+Keep large editorial typography where it works.
+
+But create hierarchy.
+
+Not every section needs a 150px headline.
+
+Some sections should use:
+
+medium headings
+small labels
+large numbers
+imagery
+whitespace
+specification cards
+
+This will make the large typography more powerful when it appears.
+
+47. CREATE A REAL INFORMATION ARCHITECTURE
+
+The final page should feel like a coherent journey:
+
+01 HERO
+↓
+02 AURELIS
+↓
+03 DESIGN
+↓
+04 EXTERIOR
+↓
+05 PERFORMANCE
+↓
+06 ENGINEERING
+↓
+07 ELECTRIC ARCHITECTURE
+↓
+08 BATTERY + CHARGING
+↓
+09 INTERIOR
+↓
+10 MATERIALS
+↓
+11 TECHNOLOGY
+↓
+12 CONNECTED EXPERIENCE
+↓
+13 SAFETY
+↓
+14 ADAS
+↓
+15 COMFORT
+↓
+16 PERSONALIZATION
+↓
+17 SPECIFICATIONS
+↓
+18 REVIEWS
+↓
+19 FINAL CTA
+↓
+20 FOOTER
+
+This is a single premium storytelling experience.
+
+It should not feel like 20 unrelated components.
+
+48. NAVIGATION ARCHITECTURE
+
+For this phase, navigation may scroll to sections.
+
+But architect the code so that later we can turn these into actual routes.
+
+For example:
+
+/
+ /design
+ /performance
+ /engineering
+ /interior
+ /technology
+ /safety
+ /configure
+ /reviews
+
+Do not implement all those routes yet unless useful.
+
+But structure components so this transition will be easy in Phase 2.
+
+49. FUTURE PHASE — DO NOT IMPLEMENT YET
+
+We will later make the website fully functional.
+
+Future functionality will include:
+
+internal routes
+configuration
+vehicle color selection
+wheel selection
+interior selection
+enquiry form
+reviews
+contact
+specification pages
+possibly test-drive flow
+interactive vehicle exploration
+
+For this phase:
+
+Focus on the visual/product experience and architecture.
+
+Do not waste time implementing backend functionality.
+
+50. QUALITY BAR
+
+Before declaring the work complete, inspect the website at:
+
+Desktop
+
+1440 × 900
+
+Laptop
+
+1280 × 800
+
+Tablet
+
+768 × 1024
+
+Mobile
+
+390 × 844
+
+Small mobile
+
+360 × 800
+
+Check every section.
+
+Specifically look for:
+
+text clipping
+horizontal overflow
+accidental overlap
+image cropping
+navbar collisions
+inconsistent margins
+unreadable text
+giant empty spaces
+excessive animation
+layout jumps
+video problems
+mobile issues
+broken anchors
+typography inconsistency
+51. FINAL VISUAL TEST
+
+Do not stop when the website technically works.
+
+Ask:
+
+"Does this look like a premium automotive manufacturer website?"
+
+If the answer is no, continue refining.
+
+The target feeling is:
+
+quiet confidence
+
+not:
+
+look how many animations we added.
+
+The website should communicate:
+
+AURELIS is expensive, engineered, deliberate and technologically advanced.
+
+52. DO NOT DESTROY WHAT ALREADY WORKS
+
+Preserve and improve:
+
+LK AURELIS identity
+existing good vehicle imagery
+existing logo treatment
+warm ivory typography
+cinematic vehicle photography
+dark luxury aesthetic
+editorial serif accents
+existing core specifications
+normal video playback
+overall automotive storytelling direction
+
+But rebuild anything that prevents the site from reaching the premium standard.
+
+53. CODE QUALITY
+
+Keep the implementation maintainable.
+
+Use reusable components such as:
+
+Navbar
+SectionLabel
+SectionHeading
+EditorialText
+MediaBlock
+FeatureRow
+SpecGrid
+Metric
+ImageGallery
+VideoSection
+MaterialCard
+TechnologyCard
+ReviewCard
+CTASection
+Footer
+
+Avoid one enormous monolithic component.
+
+Avoid duplicated styling.
+
+Create a consistent design system.
+
+54. IMPORTANT IMPLEMENTATION RULE
+
+Do not simply make changes and stop.
+
+After implementation:
+
+Run the application.
+Inspect the actual rendered page.
+Scroll through the entire website.
+Identify visual problems.
+Fix them.
+Test multiple viewport widths.
+Check console errors.
+Check overflow.
+Check video behavior.
+Check navigation.
+Repeat until the experience is visually coherent.
+
+You are responsible for the rendered result, not merely the code.
+
+55. FINAL RESULT
+
+The finished website should feel like:
+
+LK AURELIS
+
+A premium electric grand tourer.
+
+A cinematic, restrained, technologically sophisticated automotive experience.
+
+Not a generic React website.
+
+Not a portfolio.
+
+Not an AI-generated landing page.
+
+Not a collection of oversized text blocks.
+
+It should look like a real luxury automotive brand preparing to launch its flagship vehicle.
+
+IMPLEMENT THIS NOW
+
+Start by auditing the existing project.
+
+Then rebuild/refine the design system and page architecture.
+
+Do not ask me to approve every individual section.
+
+Make strong design decisions yourself according to the direction above.
+
+Use the existing assets intelligently.
+
+Use replaceable placeholder/generated imagery for missing interior content.
+
+Preserve the existing headline specifications.
+
+Build the entire website experience first.
+
+Do not implement the internal route functionality yet.
+
+That will be Phase 2 after the visual website is finished and approved.
+
+One final instruction
+
+When you finish, give me a concise implementation summary containing:
+
+What you changed
+What you rebuilt
+What assets you reused
+What placeholder imagery was introduced
+Any remaining limitations
+Any warnings/errors found
+A section-by-section list of the final website architecture
+
+Then wait for the next instruction.
+
+Begin.
