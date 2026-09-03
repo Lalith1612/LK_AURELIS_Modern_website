@@ -12,7 +12,7 @@ The project is intentionally presented as a **fictional automotive concept** and
 
 ## Live Website
 
-**Production:** [https://lk-aurelis.vercel.app/](https://lk-aurelis1612.vercel.app/)
+**Production:** [https://lk-aurelis.vercel.app/](https://lk-aurelis-1612.vercel.app/)
 
 ---
 
