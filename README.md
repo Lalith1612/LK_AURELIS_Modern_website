@@ -1,440 +1,922 @@
-Deployment Link (https://lk-aurelis-1612.vercel.app/)
+# LK AURELIS
 
-LK AURELIS
+### The road, redefined.
 
+> A cinematic digital experience for a fictional next-generation electric grand tourer.
+
+LK AURELIS is a premium automotive website concept built around the idea of an electric grand tourer that combines sculptural design, long-distance performance, advanced technology, and an immersive digital experience.
+
+The project is intentionally presented as a **fictional automotive concept** and is not an actual production vehicle.
+
+---
+
+## Live Website
+
+**Production:** [https://lk-aurelis.vercel.app/](https://lk-aurelis1612.vercel.app/)
+
+---
+
+## First Light
+
+The AURELIS experience begins with **First Light** — a cinematic introduction designed to establish the character of the vehicle before the main website appears.
+
+The visitor enters a dark architectural environment where the vehicle gradually emerges through light, shadow, silhouette, and typography.
+
+```text
+Near Darkness
+      ↓
+Vehicle Silhouette
+      ↓
+Light Sweep
+      ↓
+LK AURELIS · 2026
+      ↓
+AURELIS
+      ↓
 The road, redefined.
+      ↓
+Vehicle Reveal
+      ↓
+Hero Content
+      ↓
+Full Website
+```
 
-LK AURELIS is a cinematic, premium automotive concept website created
-for a fictional electric grand tourer brand. The experience is built
-around a dark-luxury visual language: sculptural automotive imagery,
-restrained typography, cinematic motion, an interactive vehicle
-configurator, and a Digital Concierge.
+Rather than displaying a separate intro and then abruptly loading the homepage, First Light continuously morphs into the actual Hero experience.
 
-Concept / Portfolio Project
+### Cinematic Sequence
 
-AURELIS is a fictional automotive concept. The vehicle specifications,
-pricing, branding, and product experience are part of this creative
-project and do not represent a real production vehicle or commercial
-offering.
+* Near-black opening
+* Architectural vehicle silhouette
+* Progressive lighting reveal
+* AURELIS typography emergence
+* Vehicle and typography movement
+* Transition into the primary Hero composition
+* Navigation and supporting content settle naturally
+* Main website experience begins
 
-Overview
+The experience also respects the user's system-level reduced-motion preference.
 
-The LK AURELIS website is designed to feel less like a conventional
-automotive landing page and more like a digital luxury showroom.
+---
 
-The visual direction follows three principles:
+# Design Philosophy
 
-Luxury first
+The core design principle is:
 
-Technology second
+> **Luxury first — technology second — cinematic but restrained.**
 
-Cinematic, but restrained
+AURELIS deliberately avoids the typical futuristic technology aesthetic of excessive neon, gradients, glowing interfaces, and generic SaaS-style layouts.
 
-The experience covers the vehicle story, design, specifications,
-charging, range, configuration, AI assistance, PDF generation, and
-enquiry journey.
+Instead, the visual language focuses on:
 
-First Light --- Cinematic Opening
+* Dark architectural environments
+* Graphite and satin metallic surfaces
+* Thin horizontal lighting
+* Sculptural vehicle forms
+* Large negative space
+* Restrained typography
+* Warm and cool cinematic lighting
+* Architectural wheel designs
+* Glass canopy surfaces
+* Subtle LK branding
+* Slow, intentional motion
 
-The website opens with a 5.2-second cinematic sequence:
+The objective is to make the website feel closer to a **private automotive studio, luxury showroom, or automotive design film** than a conventional product website.
 
-Near-black studio environment
+---
 
-Architectural vehicle silhouette emerges
+# Concept Vehicle
 
-Softbox lighting sweeps across the vehicle
+## LK AURELIS
 
-LK AURELIS · 2026 appears
+A fictional electric grand tourer designed around effortless long-distance travel, performance, technology, and sculptural simplicity.
 
-AURELIS and The road, redefined. emerge
+| Specification           |           Concept Figure |
+| ----------------------- | -----------------------: |
+| Starting Price          |             **$185,000** |
+| Power                   |      **620 kW / 831 hp** |
+| Range                   |          **720 km WLTP** |
+| 0–100 km/h              |          **3.4 seconds** |
+| Top Speed               |             **260 km/h** |
+| Electrical Architecture |                 **800V** |
+| DC Charging             | **10–80% in 18 minutes** |
+| AC Charging             |                **22 kW** |
 
-The cinematic vehicle transitions into the main Hero vehicle
+> **Note:** All vehicle specifications, pricing, range, performance figures, and charging figures are fictional concept figures created for this project.
 
-Typography and vehicle settle into the actual Hero layout
+---
 
-The sequence supports:
+# Website Experience
 
-Skip Intro
+The website is structured as a digital automotive journey rather than a traditional product landing page.
 
-Escape to bypass
+```text
+FIRST LIGHT
+     ↓
+HERO
+     ↓
+DESIGN
+     ↓
+PERFORMANCE
+     ↓
+RANGE & CHARGING
+     ↓
+INTERIOR
+     ↓
+TECHNOLOGY
+     ↓
+CRAFT
+     ↓
+CONFIGURATOR
+     ↓
+DIGITAL CONCIERGE
+     ↓
+ENQUIRY
+```
 
-Mouse and trackpad interaction without accidental dismissal
+Each part of the experience has a specific purpose:
 
-Reduced-motion accessibility behavior
+### Identity
 
-The active cinematic implementation lives in the main Hero component.
+The Hero and First Light establish the visual identity of AURELIS.
 
-Vehicle Concept
+### Desire
 
-Specification                       Concept Figure
+Design, proportions, materials, performance, and cinematic imagery create emotional engagement.
 
-Starting Price                       $185,000
-Power                          620 kW / 831 hp
-WLTP Range                              720 km
-0--100 km/h                              3.4 s
-Top Speed                             260 km/h
-Electrical Architecture                   800V
-DC Fast Charging            18 min --- 10--80%
-AC Charging                              22 kW
+### Confidence
 
-These are fictional concept specifications.
+Technology, range, charging, and specifications provide product context.
 
-Interactive Configurator
+### Personalisation
 
-AURELIS includes a five-stage vehicle configurator with dynamic pricing:
+The configurator allows visitors to create their own AURELIS specification.
 
-Exterior
+### Assistance
 
-Wheels
+The Digital Concierge provides an interactive AI-powered product experience.
 
-Interior
+### Conversion
 
-Details
+The enquiry flow provides a natural next step for visitors interested in the concept.
 
-Summary
+---
 
-Wheels
+# Interactive Configurator
 
-Option                Price
+AURELIS includes a complete interactive vehicle configurator.
 
-Aero 21                +$0
-Performance 22     +$6,500
-Forged 22          +$9,500
+The experience is organized into five stages:
 
-Interior
+```text
+01 — Exterior
+02 — Wheels
+03 — Interior
+04 — Details
+05 — Summary
+```
 
-Option             Price
+## Exterior
 
-Noir                +$0
-Ivory           +$4,500
-Performance     +$8,500
+The exterior stage establishes the vehicle's visual configuration and presentation.
 
-Details
+---
 
-Option           Price
+## Wheels
 
-Signature         +$0
-Nightfall     +$3,500
-Executive     +$7,500
+Three wheel configurations are available.
 
-The base configuration starts at $185,000.
+| Wheel Configuration |    Price |
+| ------------------- | -------: |
+| Aero 21"            | Included |
+| Performance 22"     |  +$6,500 |
+| Forged 22"          |  +$9,500 |
 
-The configurator includes:
+---
 
-Dynamic pricing
+## Interior
 
-Configuration persistence
+Three interior themes are available.
 
-Configuration IDs
+| Interior    |    Price |
+| ----------- | -------: |
+| Noir        | Included |
+| Ivory       |  +$4,500 |
+| Performance |  +$8,500 |
 
-Shareable configuration URLs
+---
 
-Summary generation
+## Details
 
-PDF generation
+Three detail packages are available.
 
-Enquiry flow
+| Package   |    Price |
+| --------- | -------: |
+| Signature | Included |
+| Nightfall |  +$3,500 |
+| Executive |  +$7,500 |
 
-Pricing data is maintained in:
+---
 
+## Configuration Summary
+
+The final stage dynamically calculates the selected specification and total price.
+
+The configurator supports:
+
+* Dynamic pricing
+* Configuration IDs
+* Local storage persistence
+* Shareable configuration URLs
+* Configuration summaries
+* PDF generation
+* Enquiry flow
+
+Configurator pricing data is centralized in:
+
+```text
 src/data/configuratorData.js
+```
 
-Digital Concierge
+---
 
-The website includes a server-side AI Digital Concierge for
-conversational product assistance.
+# Digital Concierge
 
-It supports:
+The **Digital Concierge** is an AI-powered virtual product specialist built specifically around the AURELIS experience.
 
-Product questions
+Instead of functioning as a generic chatbot, the Concierge is designed to understand the vehicle, its specifications, configuration system, and website experience.
 
-Vehicle specifications
+It can assist with:
 
-Configuration guidance
+* Vehicle specifications
+* Performance
+* Range
+* Charging
+* Configuration
+* Interior choices
+* Design details
+* Pricing
+* Website navigation
+* Configuration actions
+* Relevant deep links
 
-Conversational context
+The Concierge maintains conversational context during a session and can provide action-oriented responses.
 
-Action/deep links
+---
 
-Streaming responses
+# AI Architecture
 
-The API endpoint is:
+The Digital Concierge uses a server-side Gemini integration through:
 
+```text
 /api/concierge
+```
 
-AI credentials remain server-side and are never exposed in the client
-bundle.
+The API key is not exposed to the browser.
 
-Environment Variables
+```text
+┌──────────────┐
+│    Browser   │
+└──────┬───────┘
+       │
+       ▼
+┌────────────────────┐
+│  /api/concierge    │
+└────────┬───────────┘
+         │
+         ▼
+┌────────────────────┐
+│ Server-side Gemini │
+└────────┬───────────┘
+         │
+         ▼
+┌────────────────────┐
+│   SSE Streaming    │
+└────────┬───────────┘
+         │
+         ▼
+┌────────────────────┐
+│ Digital Concierge  │
+└────────────────────┘
+```
 
-Use a local .env file for credentials and never commit it.
+### Characteristics
 
-Example:
+* Server-side API integration
+* Streaming responses
+* Conversational context
+* Action/deep-link support
+* No client-side API key exposure
+* No persistent conversation storage
 
-GEMINI_API_KEY=your_api_key_here
+---
 
-Only placeholders should appear in committed example files.
+# Technology Stack
 
-Technology Stack
+### Frontend
 
-React
+* React
+* Vite
+* JavaScript
+* JSX
+* CSS
 
-Vite
+### Animation
 
-JavaScript / JSX
+* GSAP
+* ScrollTrigger
 
-CSS
+### Artificial Intelligence
 
-GSAP
+* Google Gemini
+* Server-side API integration
+* Server-Sent Events (SSE)
 
-ScrollTrigger
+### Deployment
 
-Server-side Gemini integration
+* Vercel
 
-Server-Sent Events (SSE)
+### Development
 
-PDF generation
+* Node.js
+* npm
+* Git
+* GitHub
 
-html2canvas
+---
 
-Vercel
+# Project Structure
 
-GitHub
-
-Project Structure
-
+```text
 LK_AURELIS_WEBSITE/
+│
 ├── public/
 │   └── assets/
+│       └── ...
+│
 ├── src/
 │   ├── assets/
 │   │   └── images/
+│   │       └── ...
+│   │
 │   ├── components/
 │   │   ├── Hero.jsx
+│   │   ├── CinematicOpening.jsx
 │   │   └── ...
+│   │
 │   ├── data/
 │   │   └── configuratorData.js
+│   │
 │   ├── App.jsx
-│   ├── styles.css
+│   ├── main.jsx
 │   └── ...
+│
 ├── api/
 │   └── concierge/
+│       └── ...
+│
 ├── .gitignore
 ├── package.json
+├── package-lock.json
 ├── vite.config.js
 └── README.md
+```
 
-Getting Started
+---
 
-Prerequisites
+# Getting Started
 
-Node.js
+## Prerequisites
 
-npm
+Make sure the following are installed:
 
-Git
+* Node.js
+* npm
+* Git
 
-Clone
+---
 
+## Clone the Repository
+
+```bash
 git clone https://github.com/Lalith1612/LK_AURELIS_WEBSITE.git
 cd LK_AURELIS_WEBSITE
+```
 
-Install
+---
 
+## Install Dependencies
+
+```bash
 npm install
+```
 
-Configure Environment
+---
 
-Create a local .env file for required server-side credentials.
+# Environment Variables
 
+The Digital Concierge requires a Gemini API key.
+
+Create a local environment file:
+
+```text
+.env
+```
+
+Add:
+
+```env
 GEMINI_API_KEY=your_api_key_here
+```
 
-Never commit real credentials.
+### Security
 
-Development
+**Never commit a real API key to GitHub.**
 
+The repository should contain only placeholder values in example environment files.
+
+For example:
+
+```env
+GEMINI_API_KEY=your_api_key_here
+```
+
+Your actual `.env` file should remain local and must be excluded from Git.
+
+---
+
+# Development
+
+Start the development server:
+
+```bash
 npm run dev
+```
 
-Production Build
+Vite will start the local development environment and provide the local URL in the terminal.
 
+---
+
+# Production Build
+
+Build the production version:
+
+```bash
 npm run build
+```
 
-The production output is generated in:
+The production output is generated inside:
 
+```text
 dist/
+```
 
-Local Production Preview
+The project is configured to build successfully in the Vercel environment.
 
-npx vite preview --port 4173
+---
 
-Deployment
+# Deployment
 
-The project is deployed through Vercel from the GitHub repository.
+The website is deployed through Vercel.
 
-The production build command is:
+```text
+GitHub
+   │
+   ▼
+main branch
+   │
+   ▼
+Vercel
+   │
+   ▼
+Production Build
+   │
+   ▼
+LK AURELIS
+```
 
-node node_modules/vite/bin/vite.js build
+Production deployments should be verified after changes involving:
 
-This command is intentional: the project previously encountered Linux
-executable-permission issues when node_modules artifacts were tracked
-by Git. node_modules/ is now excluded from version control.
+* Hero experience
+* First Light
+* Animation timelines
+* Asset paths
+* API routes
+* Environment variables
+* Configurator logic
 
-Recommended workflow:
+---
 
-Local changes
-     ↓
-git diff --check
-     ↓
-npm run build
-     ↓
-git commit
-     ↓
-git push origin main
-     ↓
-Vercel deployment
+# Accessibility
 
-Asset Handling
+Accessibility is considered throughout the cinematic experience.
 
-The First Light silhouette is imported through Vite:
+## Reduced Motion
 
-import silhouetteImg from '../assets/images/aurelis-ext-front.jpg'
+First Light respects the user's system-level:
 
-This allows Vite to fingerprint and bundle the asset into production.
+```text
+prefers-reduced-motion: reduce
+```
 
-Avoid hard-coded source paths such as:
+preference.
 
-/src/assets/...
+When reduced motion is enabled, the cinematic introduction is bypassed so the visitor can access the main website without the extended animation sequence.
 
-for assets that need to be bundled by Vite.
+## Skip Controls
 
-The main Hero vehicle is served from:
+Visitors can also bypass First Light manually using:
 
-public/assets/aurelis-hero.jpg
+* **Skip Intro**
+* **Escape**
 
-Accessibility
+The skip transition is intentionally graceful rather than an immediate hard cut.
 
-The cinematic opening respects the user's motion preference.
+---
 
-When:
+# Responsive Design
 
-window.matchMedia('(prefers-reduced-motion: reduce)').matches
+The website is designed to adapt across:
 
-returns true, the cinematic introduction is bypassed.
+* Desktop
+* Laptop
+* Tablet
+* Mobile
 
-This is intentional accessibility behavior.
+The responsive experience covers:
 
-When testing First Light, make sure the operating system and browser are
-not configured to request reduced motion.
+* Hero composition
+* Vehicle imagery
+* Typography
+* Navigation
+* Content sections
+* Configurator
+* Digital Concierge
+* Interactive controls
 
-Design Direction
+The goal is to preserve the visual character of the AURELIS experience across different screen sizes rather than simply scaling down the desktop interface.
 
-AURELIS intentionally avoids generic technology or SaaS aesthetics.
+---
 
-Core Visual Language
+# Performance
 
-Dark architectural studio environments
+The project uses large automotive imagery and cinematic animation, making asset handling and runtime performance important considerations.
 
-Graphite and satin metallic surfaces
+Key implementation considerations include:
 
-Thin horizontal lighting
+* Optimized asset delivery
+* Production asset hashing
+* Responsive image sizing
+* Controlled animation timelines
+* GPU-friendly transforms
+* Avoiding unnecessary DOM duplication
+* Lazy loading where appropriate
+* Production build verification
 
-Sculptural automotive forms
+Generated dependencies such as `node_modules` are intentionally excluded from the repository.
 
-Architectural wheels
+---
 
-Glass canopy
+# First Light Implementation
 
-Subtle LK branding
+The active production implementation of First Light lives inside:
 
-Warm/cool cinematic contrast
-
-Editorial typography
-
-Generous negative space
-
-The guiding principle is:
-
-Luxury first --- technology second --- cinematic but restrained.
-
-Engineering Notes
-
-Keep node_modules/ out of Git.
-
-Keep dist/ out of Git.
-
-Keep .env and local environment files out of Git.
-
-Use Vite imports for assets inside src/.
-
-Keep API credentials server-side.
-
-Run a production build before deployment.
-
-Avoid duplicating major interactive experiences.
-
-Useful checks:
-
-git status
-git diff --check
-npm run build
-
-First Light Implementation
-
-The active cinematic implementation is in:
-
+```text
 src/components/Hero.jsx
+```
 
-Supporting styles are in:
+The cinematic experience uses layered elements including:
 
-src/styles.css
+```text
+.hero-section
+.hero-cinematic-backdrop
+.hero-car-reveal
+.hero-cinematic-softbox
+.hero-cinematic-progress
+```
 
-The production silhouette source asset is:
+The experience is integrated directly into the Hero rather than functioning as an independent page.
 
-src/assets/images/aurelis-ext-front.jpg
+This creates a continuous transition:
 
-The main Hero vehicle asset is:
+```text
+First Light ───────────────────────► Hero
+                   continuous morph
+```
 
-public/assets/aurelis-hero.jpg
+rather than:
 
-An older standalone CinematicOpening.jsx component may remain in the
-filesystem/history, but it is not the active First Light implementation.
+```text
+Intro ──► Page transition ──► Hero
+```
 
-Project Philosophy
+This distinction is central to the intended experience.
 
-AURELIS is built around one idea:
+---
 
-A premium digital automotive experience should feel like entering
-the vehicle, not reading about it.
+# Vehicle Reveal
 
-Every interaction is intended to reinforce the character of the vehicle:
+First Light uses a dedicated architectural silhouette asset during the initial vehicle reveal.
 
-quiet confidence, precision, atmosphere, and motion.
+The silhouette is progressively revealed before transitioning into the canonical silver AURELIS hero vehicle imagery.
 
-Status
+This prevents the final hero vehicle from appearing prematurely during the opening moments.
 
-Project: LK AURELIS
-Type: Fictional premium EV grand tourer concept website
-Stage: Interactive website / portfolio concept
-Deployment: Vercel
-Primary stack: React + Vite + GSAP
-AI: Server-side Digital Concierge
+The production Vite build includes the required silhouette asset as part of the generated asset bundle.
 
-License
+---
 
-This is a personal creative/portfolio concept.
+# Configuration Persistence
 
-The AURELIS name, fictional vehicle specifications, visual identity,
-product concepts, and associated creative assets are intended for this
-project and should not be interpreted as representing a real automotive
-manufacturer or production vehicle.
+The configurator uses browser local storage to preserve the visitor's selections.
 
-Unless otherwise stated, source code and original project assets are not
-licensed for commercial redistribution.
+A visitor can:
 
-Author
+1. Configure the vehicle
+2. Navigate through the website
+3. Return to the configurator
+4. Continue with the selected specification
 
-Lalith Kumar
+Configuration IDs and shareable configuration URLs are also supported.
 
-Built as an exploration of premium automotive web design, cinematic
-interaction, AI-assisted product experiences, and modern frontend
-engineering.
+---
+
+# Engineering Notes
+
+## Single Configurator
+
+The project intentionally uses **one primary vehicle configurator**.
+
+The configurator follows:
+
+```text
+Exterior
+   ↓
+Wheels
+   ↓
+Interior
+   ↓
+Details
+   ↓
+Summary
+```
+
+A second independent configurator is not required.
+
+---
+
+## Centralized Pricing
+
+Configurator pricing is maintained centrally instead of being scattered across individual UI components.
+
+Primary data source:
+
+```text
+src/data/configuratorData.js
+```
+
+This makes future pricing changes easier to maintain and reduces the possibility of inconsistent totals.
+
+---
+
+## Cinematic Architecture
+
+The current production First Light implementation is located in:
+
+```text
+src/components/Hero.jsx
+```
+
+A standalone component also exists:
+
+```text
+src/components/CinematicOpening.jsx
+```
+
+The standalone component is currently not mounted by the application.
+
+The implementation inside `Hero.jsx` should therefore be treated as the active production source of truth for First Light.
+
+---
+
+# Repository Hygiene
+
+The repository excludes generated, local, and sensitive files.
+
+Important ignored paths include:
+
+```text
+node_modules/
+dist/
+.env
+.env.local
+.env.*.local
+*.log
+```
+
+Dependencies should be installed using:
+
+```bash
+npm install
+```
+
+rather than committed into the repository.
+
+This is particularly important for Linux-based deployment environments such as Vercel.
+
+---
+
+# Visual Language
+
+The AURELIS visual system is built around a restrained luxury aesthetic.
+
+## Materials
+
+```text
+Graphite
+Satin Metal
+Brushed Aluminium
+Dark Glass
+Carbon
+Soft Black
+```
+
+## Lighting
+
+```text
+Architectural
+Directional
+Low-key
+Warm / Cool contrast
+Thin horizontal highlights
+Soft reflections
+```
+
+## Typography
+
+Typography is clean, editorial, and intentionally restrained.
+
+The interface avoids excessive:
+
+* Gradient text
+* Neon effects
+* Glow effects
+* Rounded SaaS cards
+* Generic dashboard components
+* Excessive glassmorphism
+* Unnecessary visual noise
+
+The intended hierarchy is:
+
+```text
+Luxury
+   ↓
+Design
+   ↓
+Emotion
+   ↓
+Technology
+```
+
+---
+
+# Experience Principles
+
+The website follows several principles throughout its implementation.
+
+### 01 — Form Before Data
+
+The vehicle should be experienced visually before the visitor is presented with large amounts of technical information.
+
+### 02 — Motion With Purpose
+
+Animation should communicate transition, material, scale, or hierarchy.
+
+Motion should never exist simply because an element can be animated.
+
+### 03 — Technology Without Noise
+
+Advanced technology is part of the AURELIS identity, but it should remain understated.
+
+### 04 — One Continuous Experience
+
+Sections should feel connected rather than behaving like unrelated pages.
+
+### 05 — Luxury Through Restraint
+
+The design relies on composition, typography, lighting, negative space, and material rather than excessive effects.
+
+---
+
+# Concept Disclaimer
+
+**LK AURELIS is a fictional automotive concept and digital design project.**
+
+The following are conceptual and created exclusively for this project:
+
+* LK AURELIS branding
+* Vehicle design
+* Vehicle specifications
+* Pricing
+* Performance figures
+* Range figures
+* Charging figures
+* Product claims
+* Digital product experience
+
+LK AURELIS should not be interpreted as an existing production vehicle or commercially available automotive product.
+
+---
+
+# Project Status
+
+| Feature                        | Status        |
+| ------------------------------ | ------------- |
+| Cinematic First Light          | ✅ Implemented |
+| Responsive Website             | ✅ Implemented |
+| Vehicle Experience             | ✅ Implemented |
+| Interactive Configurator       | ✅ Implemented |
+| Dynamic Pricing                | ✅ Implemented |
+| Configuration Persistence      | ✅ Implemented |
+| Shareable Configurations       | ✅ Implemented |
+| Configuration ID               | ✅ Implemented |
+| PDF Generation                 | ✅ Implemented |
+| Enquiry Flow                   | ✅ Implemented |
+| Digital Concierge              | ✅ Implemented |
+| Server-side Gemini Integration | ✅ Implemented |
+| Streaming Responses            | ✅ Implemented |
+| Reduced Motion Support         | ✅ Implemented |
+| Vercel Deployment              | ✅ Implemented |
+
+---
+
+# Future Possibilities
+
+Potential future improvements include:
+
+* Expanded vehicle configuration options
+* More detailed interior exploration
+* Advanced 3D vehicle interaction
+* Enhanced charging visualizations
+* Additional Digital Concierge actions
+* More cinematic transitions
+* Mobile-specific interaction refinements
+* Further image optimization
+* Advanced vehicle material customization
+* Performance profiling across lower-end devices
+
+These are potential future directions rather than requirements for the current implementation.
+
+---
+
+# Philosophy
+
+AURELIS is built around a simple idea:
+
+> **An electric vehicle should not have to look like a piece of technology.**
+
+The digital experience therefore treats the vehicle as a piece of design first.
+
+Technology is present throughout the experience, but it remains deliberately understated.
+
+The objective is not to overwhelm the visitor with information.
+
+The objective is to make them want to keep looking.
+
+---
+
+# Author
+
+## Lalith Kumar
+
+Researcher · Developer · AI & Machine Learning
+
+LK AURELIS is a personal automotive web experience and design/engineering project exploring the intersection of:
+
+* Automotive design
+* Frontend engineering
+* Interaction design
+* Motion design
+* Artificial intelligence
+* Generative experiences
+* Premium digital product design
+
+---
+
+# License
+
+This project is intended primarily as a personal portfolio and concept project.
+
+The LK AURELIS brand, vehicle concept, visual identity, imagery, specifications, and fictional product information should not be represented as an official automotive product or commercial vehicle.
+
+---
+
+<div align="center">
+
+## LK AURELIS
+
+### The road, redefined.
+
+**Luxury first. Technology second.**
+
+</div>
